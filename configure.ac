@@ -385,7 +385,7 @@ AC_LIB_RPATH
 
 # Checks for header files.
 AC_HEADER_STDC
-AC_CHECK_HEADERS([stdint.h sys/types.h signal.h fcntl.h malloc.h locale.h \
+AC_CHECK_HEADERS([stdint.h sys/types.h fcntl.h malloc.h locale.h \
 	stddef.h wchar.h dlfcn.h sys/time.h sys/wait.h])
 
 
@@ -423,7 +423,7 @@ unset cob_keyw
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS([memmove memset setlocale fcntl strerror strcasecmp \
 	strchr strrchr strdup strstr strtol gettimeofday localeconv \
-	getexecname canonicalize_file_name popen raise readlink realpath \
+	getexecname canonicalize_file_name popen raise \
 	setenv strcoll flockfile])
 
 # Check for timezone
