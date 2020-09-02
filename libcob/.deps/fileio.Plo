@@ -1,0 +1,105 @@
+fileio.lo: fileio.c ../config.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/stdio.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/features.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/bits/alltypes.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/stdlib.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/alloca.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/stddef.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/stdarg.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/string.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/strings.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/ctype.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/errno.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/bits/errno.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/time.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/sys/types.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/endian.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/stdint.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/bits/stdint.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/sys/select.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/sys/stat.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/bits/stat.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/unistd.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/bits/posix.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/fcntl.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/bits/fcntl.h \
+  /home/christoph/COBOL/bitcode-managed/include/db.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/inttypes.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/pthread.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/sched.h \
+  ../libcob.h ../libcob/common.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/setjmp.h \
+  /home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/bits/setjmp.h \
+  ../libcob/exception.def exception-io.def coblocal.h
+
+../config.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/stdio.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/features.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/bits/alltypes.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/stdlib.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/alloca.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/stddef.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/stdarg.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/string.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/strings.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/ctype.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/errno.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/bits/errno.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/time.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/sys/types.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/endian.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/stdint.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/bits/stdint.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/sys/select.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/sys/stat.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/bits/stat.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/unistd.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/bits/posix.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/fcntl.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/bits/fcntl.h:
+
+/home/christoph/COBOL/bitcode-managed/include/db.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/inttypes.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/pthread.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/sched.h:
+
+../libcob.h:
+
+../libcob/common.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/setjmp.h:
+
+/home/christoph/graalvm-ee-java11-20.1.1/languages/llvm/managed/include/bits/setjmp.h:
+
+../libcob/exception.def:
+
+exception-io.def:
+
+coblocal.h:
