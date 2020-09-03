@@ -10131,38 +10131,38 @@ output_module_init (struct cb_program *prog)
 static void
 generate_struct(struct cb_field *record) {
 	struct cb_field *f;
-	output_storage ("struct __attribute__((packed)) %s {\n", record->name);
+	output ("struct __attribute__((packed)) %s {\n", record->name);
 	for (f = record->children; f; f = f->sister) {
 		switch(f->usage){
 		case CB_USAGE_SIGNED_CHAR:
-			output_storage ("\tchar %s;\n", f->name);
+			output ("\tchar %s;\n", f->name);
 			break;	
 		case CB_USAGE_COMP_5:
 			switch(f->size){
 			case 1:
-				output_storage ("\tchar %s;\n", f->name);
+				output ("\tchar %s;\n", f->name);
 				break;
 			case 4:
-				output_storage ("\tint %s;\n", f->name);
+				output ("\tint %s;\n", f->name);
 				break;
 			case 8:
-				output_storage ("\tlong %s;\n", f->name);
+				output ("\tlong %s;\n", f->name);
 				break;
 			default:
-				output_storage ("/*unsupported CB_USAGE_COMP_5 for variable: %s with size %d\n*/", f->name, f->size);
+				output ("/*unsupported CB_USAGE_COMP_5 for variable: %s with size %d\n*/", f->name, f->size);
 			}
 			break;
 		case CB_USAGE_DOUBLE:
-			output_storage ("\tdouble %s;\n", f->name);
+			output ("\tdouble %s;\n", f->name);
 			break;
 		case CB_USAGE_DISPLAY:
-			output_storage ("\tchar %s[%d];\n", f->name, f->size);
+			output ("\tchar %s[%d];\n", f->name, f->size);
 			break;
 		default:
-			output_storage ("/* unsupported type %s */", f->pic->orig);
+			output ("/* unsupported type %s */", f->pic->orig);
 		}
 	}
-	output_storage ("};");
+	output ("};");
 }
 
 static void
@@ -10430,13 +10430,16 @@ output_internal_function (struct cb_program *prog, cb_tree parameter_list)
 		output_local ("\n");
 	}
 	
-	output_storage ("/* Generated structs for %s*/", prog->program_name);
+	savetarget = output_target;
+	output_target = cb_interface_file;
+	output("/* Generated structs for %s*/\n", prog->program_name);
 	for (f = prog->linkage_storage; f; f = f->sister){
 		
 		if (f->children != NULL){
 			generate_struct(f);
 		}
 	}
+	output_target = savetarget;
 
 	/* Screens */
 	if (prog->screen_storage) {

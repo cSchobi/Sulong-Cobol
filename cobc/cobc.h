@@ -277,6 +277,7 @@ struct filename {
 	const char		*object;		/* foo.o (full path) */
 	const char		*demangle_source;	/* foo */
 	const char		*listing_file;		/* foo.lst */
+	const char 		*interface; 		/* foo_interface.h */
 	struct local_filename	*localfile;		/* foo.c.l[n].h */
 	size_t			translate_len;		/* strlen translate */
 	size_t			object_len;		/* strlen object */
@@ -484,6 +485,8 @@ extern unsigned int		cobc_gen_listing;
 extern const char		*demangle_name;
 extern FILE			*cb_storage_file;
 extern const char		*cb_storage_file_name;
+extern FILE			*cb_interface_file;
+extern const char   *cb_interface_file_name;
 
 extern char			**cb_saveargv;
 extern int			cb_saveargc;

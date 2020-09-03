@@ -212,6 +212,7 @@ const char		*cb_source_file = NULL;
 const char		*cb_cobc_build_stamp = NULL;
 const char		*demangle_name = NULL;
 const char		*cb_storage_file_name = NULL;
+const char		*cb_interface_file_name = NULL;
 const char		*cb_call_extfh = NULL;
 struct cb_text_list	*cb_include_list = NULL;
 struct cb_text_list	*cb_intrinsic_list = NULL;
@@ -221,6 +222,7 @@ struct cb_text_list	*cb_early_exit_list = NULL;
 char			**cb_saveargv = NULL;
 const char		*cob_config_dir = NULL;
 FILE			*cb_storage_file = NULL;
+FILE			*cb_interface_file = NULL;
 FILE			*cb_listing_file = NULL;
 
 /* Listing structures and externals */
@@ -2160,6 +2162,11 @@ cobc_clean_up (const int status)
 		cb_storage_file = NULL;
 	}
 
+	if (cb_interface_file) {
+		fclose (cb_interface_file);
+		cb_interface_file = NULL;
+	}
+
 	if (ppin) {
 		fclose (ppin);
 		ppin = NULL;
@@ -3983,6 +3990,7 @@ process_filename (const char *filename)
 	if (fn->need_translate) {
 #ifndef HAVE_8DOT3_FILENAMES
 		fn->trstorage = cobc_main_stradd_dup (fn->translate, ".h");
+		fn->interface = cobc_main_stradd_dup(fn->demangle_source, "_interface.h");
 #else
 		/* for 8.3 filenames use no ".c" prefix */
 		buffer = cobc_strdup (fn->translate);
@@ -7460,6 +7468,23 @@ process_translate (struct filename *fn)
 		memcpy ((void *) cb_storage_file_name, (void *) buffer, strlen (buffer) + 1);
 	}
 
+	/* Open the common interface file */
+	cb_interface_file_name = cobc_main_strdup (fn->interface);
+	if (cb_unix_lf) {
+		cb_interface_file = fopen (cb_interface_file_name, "wb");
+	} else {
+		cb_interface_file = fopen (cb_interface_file_name, "w");
+	}
+	if (!cb_storage_file) {
+		cobc_terminate (cb_interface_file_name);
+	}
+	/* remove possible path from header name for later codegen */
+	if (strrchr (cb_interface_file_name, '/')
+	 || strrchr (cb_interface_file_name, '\\')) {
+		buffer = file_basename (cb_interface_file_name, COB_BASENAME_KEEP_EXT);
+		memcpy ((void *) cb_interface_file_name, (void *) buffer, strlen (buffer) + 1);
+	}
+
 	/* Process programs in original order */
 	restore_program_list_order ();
 
@@ -7534,6 +7559,10 @@ process_translate (struct filename *fn)
 		cobc_terminate (fn->trstorage);
 	}
 	cb_storage_file = NULL;
+	if (unlikely(fclose (cb_interface_file) != 0)) {
+		cobc_terminate (fn->interface);
+	}
+	cb_interface_file = NULL;
 	if (unlikely (fclose (yyout) != 0)) {
 		cobc_terminate (fn->translate);
 	}
