@@ -12297,6 +12297,8 @@ codegen (struct cb_program *prog, const char *translate_name, const int subseque
 		output_line ("/* Global variables */");
 		output ("#include \"%s\"", cb_storage_file_name);
 		output_newline ();
+		output ("#include \"%s\"", cb_interface_file_name);
+		output_newline ();
 		output_newline ();
 
 		output_function_prototypes (prog);
