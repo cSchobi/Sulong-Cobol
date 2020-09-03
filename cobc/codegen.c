@@ -11687,10 +11687,19 @@ output_program_entry_function_parameters (cb_tree using_list, const int gencode,
 		case CB_CALL_BY_REFERENCE:
 		case CB_CALL_BY_CONTENT:
 			if (gencode) {
-				output ("cob_u8_t *%s%d",
-					CB_PREFIX_BASE, f->id);
+				if (f->children) {
+					output ("struct %s *%s%d",
+						f->name, CB_PREFIX_BASE, f->id);
+				} else {
+					output ("cob_u8_t *%s%d",
+						CB_PREFIX_BASE, f->id);
+				}
 			} else {
-				output ("cob_u8_t *");
+				if (f->children) {
+					output ("struct %s *", f->name);
+				} else { 
+					output ("cob_u8_t *");
+				}
 			}
 			s_type[n] = "";
 			break;
