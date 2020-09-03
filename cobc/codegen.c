@@ -10162,7 +10162,8 @@ generate_struct(struct cb_field *record) {
 			output ("/* unsupported type %s */", f->pic->orig);
 		}
 	}
-	output ("};");
+	output ("};\n");
+	output ("POLYGLOT_DECLARE_STRUCT(%s)\n", record->name);
 }
 
 static void
@@ -12292,6 +12293,10 @@ codegen (struct cb_program *prog, const char *translate_name, const int subseque
 		output_header (string_buffer, NULL);
 		output_target = cb_storage_file;
 		output_header (string_buffer, NULL);
+		output_target = cb_interface_file;
+		output_header (string_buffer, NULL);
+		output ("#include <polyglot.h>\n");
+
 		for (cp = prog; cp; cp = cp->next_program) {
 			output_target = cp->local_include->local_fp;
 			output_header (string_buffer, cp);
