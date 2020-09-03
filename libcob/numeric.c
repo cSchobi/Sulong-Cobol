@@ -212,9 +212,12 @@ cob_gmp_free (void * ptr) {
 static COB_INLINE COB_A_INLINE void
 num_byte_memcpy (unsigned char *s1, const unsigned char *s2, size_t size)
 {
-	do {
+#if 0
+ 	do {
 		*s1++ = *s2++;
-	} while (--size);
+	} while (--size); 
+#endif
+	memcpy(s1, s2, size);
 }
 
 static COB_INLINE COB_A_INLINE cob_s64_t
