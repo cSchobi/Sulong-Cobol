@@ -10239,12 +10239,7 @@ output_internal_function (struct cb_program *prog, cb_tree parameter_list)
 				output_newline ();
 				output ("\t");
 			}
-			if (cb_code_field (CB_VALUE (l))->children) {
-				output ("struct %s ", cb_code_field (CB_VALUE (l))->name);
-			} else {
-				output ("cob_u8_t ");
-			}
-			output ("*%s%d",
+			output ("cob_u8_t *%s%d",
 				CB_PREFIX_BASE, cb_code_field (CB_VALUE (l))->id);
 			if (CB_CHAIN (l)) {
 				output (", ");
@@ -12116,11 +12111,7 @@ output_function_prototypes (struct cb_program *prog)
 		/* Output prototype parameters */
 		if (!cp->flag_chained) {
 			for (l = cp->parameter_list; l; l = CB_CHAIN (l)) {
-				if (cb_code_field (CB_VALUE (l))->children) {
-					output (", struct %s *", cb_code_field (CB_VALUE (l))->name);
-				} else {
-					output (", cob_u8_t *");
-				}				
+				output (", cob_u8_t *");
 				if (cb_sticky_linkage) {
 					output_storage ("static cob_u8_t\t\t\t*cob_parm_%d = NULL;\n",
 							cb_code_field (CB_VALUE (l))->id);
