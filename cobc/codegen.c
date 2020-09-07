@@ -10135,22 +10135,36 @@ generate_struct(struct cb_field *record) {
 	for (f = record->children; f; f = f->sister) {
 		switch(f->usage){
 		case CB_USAGE_SIGNED_CHAR:
-			output ("\tchar %s;\n", f->name);
+			output ("\t");
+			if (!f->pic->have_sign) {
+				output ("unsigned ");
+			}
+			output ("char %s;\n", f->name);
 			break;	
 		case CB_USAGE_COMP_5:
+			output ("\t");
+			if(!f->pic->have_sign) {
+				output ("unsigned ");
+			}
 			switch(f->size){
 			case 1:
-				output ("\tchar %s;\n", f->name);
+				output ("char %s;\n", f->name);
+				break;
+			case 2:
+				output ("short %s;\n", f->name);
 				break;
 			case 4:
-				output ("\tint %s;\n", f->name);
+				output ("int %s;\n", f->name);
 				break;
 			case 8:
-				output ("\tlong %s;\n", f->name);
+				output ("long %s;\n", f->name);
 				break;
 			default:
 				output ("/*unsupported CB_USAGE_COMP_5 for variable: %s with size %d\n*/", f->name, f->size);
 			}
+			break;
+		case CB_USAGE_FLOAT:
+			output ("\tfloat %s;\n", f->name);
 			break;
 		case CB_USAGE_DOUBLE:
 			output ("\tdouble %s;\n", f->name);
