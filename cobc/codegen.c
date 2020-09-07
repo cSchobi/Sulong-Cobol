@@ -11716,7 +11716,13 @@ output_program_entry_function_parameters (cb_tree using_list, const int gencode,
 					output ("cob_u8_t *");
 				}
 			}
-			s_type[n] = "";
+			if (f->children) {
+				/* explicit type cast for generated structs */
+				s_type[n] = "(cob_u8_t *)";
+			} else {
+				s_type[n] = "";
+			}
+			
 			break;
 
 		default:
