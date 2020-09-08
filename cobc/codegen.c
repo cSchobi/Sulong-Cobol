@@ -10131,7 +10131,7 @@ output_module_init (struct cb_program *prog)
 static void
 generate_struct(struct cb_field *record) {
 	struct cb_field *f;
-	output ("struct __attribute__((packed)) %s {\n", record->name);
+	output ("struct __attribute__((packed)) %s_%d {\n", record->name, record->id);
 	for (f = record->children; f; f = f->sister) {
 		switch(f->usage){
 		case CB_USAGE_SIGNED_CHAR:
@@ -10180,7 +10180,8 @@ generate_struct(struct cb_field *record) {
 		}
 	}
 	output ("};\n");
-	output ("POLYGLOT_DECLARE_STRUCT(%s)\n", record->name);
+	output ("POLYGLOT_DECLARE_STRUCT(%s_%d)\n", record->name, record->id);
+	output_newline();
 }
 
 static void
@@ -11706,15 +11707,15 @@ output_program_entry_function_parameters (cb_tree using_list, const int gencode,
 		case CB_CALL_BY_CONTENT:
 			if (gencode) {
 				if (f->children) {
-					output ("struct %s *%s%d",
-						f->name, CB_PREFIX_BASE, f->id);
+					output ("struct %s_%d *%s%d",
+						f->name, f->id, CB_PREFIX_BASE, f->id);
 				} else {
 					output ("cob_u8_t *%s%d",
 						CB_PREFIX_BASE, f->id);
 				}
 			} else {
 				if (f->children) {
-					output ("struct %s *", f->name);
+					output ("struct %s_%d *", f->name, f->id);
 				} else { 
 					output ("cob_u8_t *");
 				}
