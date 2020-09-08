@@ -10172,6 +10172,9 @@ generate_struct(struct cb_field *record) {
 		case CB_USAGE_DISPLAY:
 			output ("\tchar %s[%d];\n", f->name, f->size);
 			break;
+		case CB_USAGE_POINTER:
+			output ("\tvoid *%s;\n", f->name);
+			break;
 		default:
 			output ("/* unsupported type %s */", f->pic->orig);
 		}
