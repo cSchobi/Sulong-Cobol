@@ -5,6 +5,9 @@ all:	SHAKE128.so SHAKE256.so SHA3-224.so \
         TESTSHA3 SHA3-512.o   SESSION-ID.o TEST-SESSION-ID \
         SHA3-256.o   SESSION-ID-256.o TEST-SESSION-ID-256
 
+interface.so: interface.c
+	cobc $(COBCOPTS) $<
+
 # SESSION-ID        
 TEST-SESSION-ID:	TEST-SESSION-ID.cob
 	cobc $(COBCOPTS) -x  TEST-SESSION-ID.cob
@@ -28,6 +31,13 @@ SHA3-256.o:	SHA3-256.cob
 # SHA3    
 TESTSHA3_STATIC: TESTSHA3.cob KECCAK.cob SHA3-224.cob SHA3-256.cob SHA3-384.cob SHA3-512.cob SHAKE128.cob SHAKE256.cob
 	cobc $(COBCOPTS) -x -fstatic-call TESTSHA3.cob KECCAK.cob SHA3-224.cob SHA3-256.cob SHA3-384.cob SHA3-512.cob SHAKE128.cob SHAKE256.cob -o $@
+
+# SHA3-256_STATIC.so:  SHA3-256.cob KECCAK.cob
+# 	cobc $(COBCOPTS) -b -fstatic-call SHA3-256.cob KECCAK.cob -o $@
+
+# do not generate C declaration of functions because of error (redeclaration) with polyglot library
+SHA3-256_STATIC.so:  SHA3-Wrapper.cob SHA3-256.cob KECCAK.cob
+	cobc $(COBCOPTS) -b -fstatic-call -fno-gen-c-decl-static-call SHA3-Wrapper.cob SHA3-256.cob KECCAK.cob -lpolyglot-mock -o $@
 
 TESTSHA3:	TESTSHA3.cob
 	cobc $(COBCOPTS) -x  TESTSHA3.cob
@@ -71,4 +81,4 @@ clean: clean_intermediates
 	rm TEST-SESSION-ID
 
 clean_intermediates:
-	rm *.i *.h *.c
+	rm *.i *.h 
