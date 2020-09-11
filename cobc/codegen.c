@@ -10128,18 +10128,39 @@ output_module_init (struct cb_program *prog)
 	output_newline ();
 }
 
+static char *
+replaceAll (char *s, char oldChar, char newChar) {
+	int i = 0;
+	for (i = 0; i < strlen(s); i++){
+		if (s[i] == oldChar) {
+			s[i] = newChar;
+		}
+	}
+	return s;
+}
+
+static char *
+make_name_C_compatible (const char *s) {
+	char *new_s = cobc_strdup(s);
+	return replaceAll(new_s, '-', '_');
+}
+
 static void
 generate_struct(struct cb_field *record) {
 	struct cb_field *f;
-	output ("struct __attribute__((packed)) %s_%d {\n", record->name, record->id);
+	char *name;
+	name = make_name_C_compatible(record->name);
+	output ("struct __attribute__((packed)) %s_%d {\n", name, record->id);
+	cobc_free (name);
 	for (f = record->children; f; f = f->sister) {
+		name = make_name_C_compatible(f->name);
 		switch(f->usage){
 		case CB_USAGE_SIGNED_CHAR:
 			output ("\t");
 			if (!f->pic->have_sign) {
 				output ("unsigned ");
 			}
-			output ("char %s;\n", f->name);
+			output ("char %s;\n", name);
 			break;	
 		case CB_USAGE_COMP_5:
 			output ("\t");
@@ -10148,39 +10169,42 @@ generate_struct(struct cb_field *record) {
 			}
 			switch(f->size){
 			case 1:
-				output ("char %s;\n", f->name);
+				output ("char %s;\n", name);
 				break;
 			case 2:
-				output ("short %s;\n", f->name);
+				output ("short %s;\n", name);
 				break;
 			case 4:
-				output ("int %s;\n", f->name);
+				output ("int %s;\n", name);
 				break;
 			case 8:
-				output ("long %s;\n", f->name);
+				output ("long %s;\n", name);
 				break;
 			default:
-				output ("/*unsupported CB_USAGE_COMP_5 for variable: %s with size %d\n*/", f->name, f->size);
+				output ("/*unsupported CB_USAGE_COMP_5 for variable: %s with size %d\n*/", name, f->size);
 			}
 			break;
 		case CB_USAGE_FLOAT:
-			output ("\tfloat %s;\n", f->name);
+			output ("\tfloat %s;\n", name);
 			break;
 		case CB_USAGE_DOUBLE:
-			output ("\tdouble %s;\n", f->name);
+			output ("\tdouble %s;\n", name);
 			break;
 		case CB_USAGE_DISPLAY:
-			output ("\tchar %s[%d];\n", f->name, f->size);
+			output ("\tchar %s[%d];\n", name, f->size);
 			break;
 		case CB_USAGE_POINTER:
-			output ("\tvoid *%s;\n", f->name);
+			output ("\tvoid *%s;\n", name);
 			break;
 		default:
 			output ("/* unsupported type %s */", f->pic->orig);
 		}
+		cobc_free (name);
 	}
 	output ("};\n");
-	output ("POLYGLOT_DECLARE_STRUCT(%s_%d)\n", record->name, record->id);
+	name = make_name_C_compatible(record->name);
+	output ("POLYGLOT_DECLARE_STRUCT(%s_%d)\n", name, record->id);
+	cobc_free (name);
 	output_newline();
 }
 
@@ -11680,6 +11704,7 @@ output_program_entry_function_parameters (cb_tree using_list, const int gencode,
 	cb_tree		l;
 	struct cb_field	*f;
 	const char	*type;
+	char *name;
 
 	for (l = using_list; l; l = CB_CHAIN (l), ++n) {
 		f = cb_code_field (CB_VALUE (l));
@@ -11707,15 +11732,19 @@ output_program_entry_function_parameters (cb_tree using_list, const int gencode,
 		case CB_CALL_BY_CONTENT:
 			if (gencode) {
 				if (f->children) {
+					name = make_name_C_compatible(f->name);
 					output ("struct %s_%d *%s%d",
-						f->name, f->id, CB_PREFIX_BASE, f->id);
+						name, f->id, CB_PREFIX_BASE, f->id);
+					cobc_free (name);
 				} else {
 					output ("cob_u8_t *%s%d",
 						CB_PREFIX_BASE, f->id);
 				}
 			} else {
 				if (f->children) {
-					output ("struct %s_%d *", f->name, f->id);
+					name = make_name_C_compatible(f->name);
+					output ("struct %s_%d *", name, f->id);
+					cobc_free (name);
 				} else { 
 					output ("cob_u8_t *");
 				}
