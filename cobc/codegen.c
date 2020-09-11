@@ -10151,7 +10151,7 @@ generate_struct(struct cb_field *record) {
 	struct cb_field *f;
 	char *name;
 	name = make_name_C_compatible(record->name);
-	output ("struct __attribute__((packed)) %s_%d {\n", name, record->id);
+	output ("struct __attribute__((packed)) %s_%s {\n", current_prog->program_id, name);
 	cobc_free (name);
 	for (f = record->children; f; f = f->sister) {
 		name = make_name_C_compatible(f->name);
@@ -10204,7 +10204,7 @@ generate_struct(struct cb_field *record) {
 	}
 	output ("};\n");
 	name = make_name_C_compatible(record->name);
-	output ("POLYGLOT_DECLARE_STRUCT(%s_%d)\n", name, record->id);
+	output ("POLYGLOT_DECLARE_STRUCT(%s_%s)\n", current_prog->program_id, name);
 	cobc_free (name);
 	output_newline();
 }
@@ -11734,8 +11734,8 @@ output_program_entry_function_parameters (cb_tree using_list, const int gencode,
 			if (gencode) {
 				if (f->children) {
 					name = make_name_C_compatible(f->name);
-					output ("struct %s_%d *%s%d",
-						name, f->id, CB_PREFIX_BASE, f->id);
+					output ("struct %s_%s *%s%d",
+						current_prog->program_id, name, CB_PREFIX_BASE, f->id);
 					cobc_free (name);
 				} else {
 					output ("cob_u8_t *%s%d",
@@ -11744,7 +11744,7 @@ output_program_entry_function_parameters (cb_tree using_list, const int gencode,
 			} else {
 				if (f->children) {
 					name = make_name_C_compatible(f->name);
-					output ("struct %s_%d *", name, f->id);
+					output ("struct %s_%s *", current_prog->program_id, name);
 					cobc_free (name);
 				} else { 
 					output ("cob_u8_t *");
@@ -12064,6 +12064,7 @@ output_function_prototypes (struct cb_program *prog)
 {
 	struct cb_program	*cp;
 	struct cb_file		*f;
+	struct cb_program   *save_current_prog;
 	cb_tree			l;
 
 	/* LCOV_EXCL_START */
@@ -12079,12 +12080,14 @@ output_function_prototypes (struct cb_program *prog)
 	output_newline ();
 	output_newline ();
 
+	save_current_prog = current_prog;
 	for (cp = prog; cp; cp = cp->next_program) {
 		/*
 		  Collect all items used as parameters in the PROCEDURE DIVISION
 		  header and ENTRY statements in the parameter list.
 		*/
 		cb_tree		entry;
+		current_prog = cp;
 		for (entry = cp->entry_list; entry; entry = CB_CHAIN (entry)) {
 			cb_tree		entry_param, prog_param;
 			for (entry_param = CB_VALUE (CB_VALUE (entry)); entry_param;
@@ -12192,6 +12195,8 @@ output_function_prototypes (struct cb_program *prog)
 		output ("extern int %s (unsigned char *opcode, FCD3 *fcd);", prog->extfh);
 		output_newline ();
 	}
+	
+	current_prog = save_current_prog;
 
 	output_newline ();
 }
