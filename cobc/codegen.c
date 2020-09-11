@@ -10142,6 +10142,7 @@ replaceAll (char *s, char oldChar, char newChar) {
 static char *
 make_name_C_compatible (const char *s) {
 	char *new_s = cobc_strdup(s);
+	replaceAll(new_s, ' ', '_');
 	return replaceAll(new_s, '-', '_');
 }
 
