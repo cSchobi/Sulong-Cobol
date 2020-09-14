@@ -277,7 +277,7 @@ struct filename {
 	const char		*object;		/* foo.o (full path) */
 	const char		*demangle_source;	/* foo */
 	const char		*listing_file;		/* foo.lst */
-	const char 		*interface; 		/* foo_interface.h */
+	const char 		*interface; 		/* foo.c_interface.h (full path) */
 	struct local_filename	*localfile;		/* foo.c.l[n].h */
 	size_t			translate_len;		/* strlen translate */
 	size_t			object_len;		/* strlen object */

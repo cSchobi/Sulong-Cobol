@@ -3990,7 +3990,7 @@ process_filename (const char *filename)
 	if (fn->need_translate) {
 #ifndef HAVE_8DOT3_FILENAMES
 		fn->trstorage = cobc_main_stradd_dup (fn->translate, ".h");
-		fn->interface = cobc_main_stradd_dup(fn->demangle_source, "_interface.h");
+		fn->interface = cobc_main_stradd_dup(fn->translate, "_interface.h");
 #else
 		/* for 8.3 filenames use no ".c" prefix */
 		buffer = cobc_strdup (fn->translate);
