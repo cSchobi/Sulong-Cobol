@@ -10245,6 +10245,7 @@ output_internal_function (struct cb_program *prog, cb_tree parameter_list)
 	int			parmnum, nested_dump;
 	int			seen;
 	int			anyseen;
+	static int		is_polyglot_header_output = 0;
 
 	/* Program function */
 #if	0	/* RXWRXW USERFUNC */
@@ -10488,8 +10489,12 @@ output_internal_function (struct cb_program *prog, cb_tree parameter_list)
 	
 	savetarget = output_target;
 	output_target = cb_interface_file;
-	output("/* Generated structs for %s*/\n", prog->program_name);
 	if (is_struct_needed(prog)) {
+		if (!is_polyglot_header_output) {
+			is_polyglot_header_output = 1;
+			output ("#include <polyglot.h>\n");
+		}
+		output("/* Generated structs for %s*/\n", prog->program_name);
 		for (f = prog->linkage_storage; f; f = f->sister){
 			if (f->children != NULL){
 				generate_struct(f);
@@ -12367,7 +12372,6 @@ codegen (struct cb_program *prog, const char *translate_name, const int subseque
 		output_header (string_buffer, NULL);
 		output_target = cb_interface_file;
 		output_header (string_buffer, NULL);
-		output ("#include <polyglot.h>\n");
 
 		for (cp = prog; cp; cp = cp->next_program) {
 			output_target = cp->local_include->local_fp;
