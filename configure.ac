@@ -421,7 +421,7 @@ unset cob_keyw
 
 # Checks for library functions.
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS([memmove memset setlocale fcntl strerror strcasecmp \
+AC_CHECK_FUNCS([memmove memset setlocale strerror strcasecmp \
 	strchr strrchr strdup strstr strtol gettimeofday localeconv \
 	getexecname canonicalize_file_name popen raise \
 	setenv strcoll flockfile])
