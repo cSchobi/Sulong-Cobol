@@ -118,6 +118,7 @@ cobc_print_usage_common_options (void)
 	puts (_("  -Q <options>          add <options> to the C link phase"));
 	puts (_("  -D <define>           define <define> for COBOL compilation"));
 	puts (_("  -K <entry>            generate CALL to <entry> as static"));
+	puts (_("  -G <entry>            generate struct for records of <entry> interface"));
 	puts (_("  -conf=<file>          user-defined dialect configuration; see -std"));
 	puts (_("  -list-reserved        display reserved words"));
 	puts (_("  -list-intrinsics      display intrinsic functions"));
