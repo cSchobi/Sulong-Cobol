@@ -10146,6 +10146,18 @@ make_name_C_compatible (const char *s) {
 	return replaceAll(new_s, '-', '_');
 }
 
+static int
+is_struct_needed(struct cb_program *cp) {
+	struct cb_text_list *ctl;
+
+	for (ctl = cb_generate_struct_list; ctl; ctl = ctl->next) {
+		if (!strcmp (cp->program_name, ctl->text)) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
 static void
 generate_struct(struct cb_field *record) {
 	struct cb_field *f;
@@ -10477,10 +10489,11 @@ output_internal_function (struct cb_program *prog, cb_tree parameter_list)
 	savetarget = output_target;
 	output_target = cb_interface_file;
 	output("/* Generated structs for %s*/\n", prog->program_name);
-	for (f = prog->linkage_storage; f; f = f->sister){
-		
-		if (f->children != NULL){
-			generate_struct(f);
+	if (is_struct_needed(prog)) {
+		for (f = prog->linkage_storage; f; f = f->sister){
+			if (f->children != NULL){
+				generate_struct(f);
+			}
 		}
 	}
 	output_target = savetarget;
@@ -11732,7 +11745,7 @@ output_program_entry_function_parameters (cb_tree using_list, const int gencode,
 		case CB_CALL_BY_REFERENCE:
 		case CB_CALL_BY_CONTENT:
 			if (gencode) {
-				if (f->children) {
+				if (f->children && is_struct_needed(current_prog)) {
 					name = make_name_C_compatible(f->name);
 					output ("struct %s_%s *%s%d",
 						current_prog->program_id, name, CB_PREFIX_BASE, f->id);
@@ -11742,7 +11755,7 @@ output_program_entry_function_parameters (cb_tree using_list, const int gencode,
 						CB_PREFIX_BASE, f->id);
 				}
 			} else {
-				if (f->children) {
+				if (f->children && is_struct_needed(current_prog)) {
 					name = make_name_C_compatible(f->name);
 					output ("struct %s_%s *", current_prog->program_id, name);
 					cobc_free (name);
@@ -11750,7 +11763,7 @@ output_program_entry_function_parameters (cb_tree using_list, const int gencode,
 					output ("cob_u8_t *");
 				}
 			}
-			if (f->children) {
+			if (f->children && is_struct_needed(current_prog)) {
 				/* explicit type cast for generated structs */
 				s_type[n] = "(cob_u8_t *)";
 			} else {

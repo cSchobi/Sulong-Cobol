@@ -218,6 +218,7 @@ struct cb_text_list	*cb_include_list = NULL;
 struct cb_text_list	*cb_intrinsic_list = NULL;
 struct cb_text_list	*cb_extension_list = NULL;
 struct cb_text_list	*cb_static_call_list = NULL;
+struct cb_text_list *cb_generate_struct_list = NULL;
 struct cb_text_list	*cb_early_exit_list = NULL;
 char			**cb_saveargv = NULL;
 const char		*cob_config_dir = NULL;
@@ -522,7 +523,7 @@ static const char	*const cob_csyns[] = {
 
 #define COB_NUM_CSYNS	sizeof(cob_csyns) / sizeof(cob_csyns[0])
 
-static const char short_options[] = "hVivqECScbmxjdFROPgwo:t:T:I:L:l:D:K:k:";
+static const char short_options[] = "hVivqECScbmxjdFROPgwo:t:T:I:L:l:D:K:k:G:";
 
 #define	CB_NO_ARG	no_argument
 #define	CB_RQ_ARG	required_argument
@@ -3412,6 +3413,14 @@ process_command_line (const int argc, char **argv)
 			}
 			CB_TEXT_LIST_ADD (cb_early_exit_list, cob_optarg);
 			break;
+
+		case 'G':
+			/* -G <xx> : Generate struct for interface of xx */
+			if (strlen (cob_optarg) > 32U) {
+				cobc_err_exit (COBC_INV_PAR, "-G");
+			}
+			CB_TEXT_LIST_ADD (cb_generate_struct_list, cob_optarg);
+			break; 
 
 		case 1:
 			/* -fstack-size=<xx> : Specify stack (perform) size */

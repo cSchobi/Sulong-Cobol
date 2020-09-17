@@ -498,6 +498,7 @@ extern struct cb_text_list	*cb_intrinsic_list;
 extern struct cb_text_list	*cb_extension_list;
 extern struct cb_text_list	*cb_static_call_list;
 extern struct cb_text_list	*cb_early_exit_list;
+extern struct cb_text_list  *cb_generate_struct_list;
 
 extern struct cb_program	*current_program;
 extern struct cb_statement	*current_statement;
