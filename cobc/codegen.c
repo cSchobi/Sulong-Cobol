@@ -10158,67 +10158,94 @@ is_struct_needed(struct cb_program *cp) {
 	return 0;
 }
 
+
+
 static void
-generate_struct(struct cb_field *record) {
+generate_struct_rec(struct cb_field *record, int recursion_level) {
 	struct cb_field *f;
 	char *name;
+	const char * const signed_str = "";
+	const char * const unsigned_str = "unsigned";
+	const char * sign_prefix = NULL;
+
 	name = make_name_C_compatible(record->name);
-	output ("struct __attribute__((packed)) %s_%s {\n", current_prog->program_id, name);
+	output_line ("struct __attribute__((packed)) %s_%s {", current_prog->program_id, name);
 	cobc_free (name);
+	output_indent_level += indent_adjust_level;
 	for (f = record->children; f; f = f->sister) {
-		name = make_name_C_compatible(f->name);
-		switch(f->usage){
-		case CB_USAGE_SIGNED_CHAR:
-			output ("\t");
-			if (!f->pic->have_sign) {
-				output ("unsigned ");
+		if (f->children) {
+			generate_struct_rec(f, recursion_level+1);
+		} else {
+			name = make_name_C_compatible(f->name);
+			switch(f->usage){
+			case CB_USAGE_SIGNED_CHAR:
+				if (!f->pic->have_sign) {
+					sign_prefix = unsigned_str;
+				} else {
+					sign_prefix = signed_str;
+				}
+				output_line ("%s char %s;", sign_prefix, name);
+				break;	
+			case CB_USAGE_COMP_5:
+				if (!f->pic->have_sign) {
+					sign_prefix = unsigned_str;
+				} else {
+					sign_prefix = signed_str;
+				}
+				switch(f->size){
+				case sizeof(char):
+					output_line ("%s char %s;", sign_prefix, name);
+					break;
+				case sizeof(short):
+					output_line ("%s short %s;", sign_prefix, name);
+					break;
+				case sizeof(int):
+					output_line ("%s int %s;", sign_prefix, name);
+					break;
+				case sizeof(long):
+					output_line ("%s long %s;", sign_prefix, name);
+					break;
+				default:
+					cobc_err_msg ("unsupported CB_USAGE_COMP_5 for variable: %s with size %d*/", name, f->size);
+					cobc_free (name);
+					COBC_ABORT ();
+				}
+				break;
+			case CB_USAGE_FLOAT:
+				output_line ("float %s;", name);
+				break;
+			case CB_USAGE_DOUBLE:
+				output_line ("double %s;", name);
+				break;
+			case CB_USAGE_DISPLAY:
+				output_line ("char %s[%d];", name, f->size);
+				break;
+			case CB_USAGE_POINTER:
+				output_line ("void *%s;", name);
+				break;
+			default:		
+				cobc_err_msg ("unsupported type %s for generating struct", f->pic->orig);
+				cobc_free (name);
+				COBC_ABORT ();
 			}
-			output ("char %s;\n", name);
-			break;	
-		case CB_USAGE_COMP_5:
-			output ("\t");
-			if(!f->pic->have_sign) {
-				output ("unsigned ");
-			}
-			switch(f->size){
-			case 1:
-				output ("char %s;\n", name);
-				break;
-			case 2:
-				output ("short %s;\n", name);
-				break;
-			case 4:
-				output ("int %s;\n", name);
-				break;
-			case 8:
-				output ("long %s;\n", name);
-				break;
-			default:
-				output ("/*unsupported CB_USAGE_COMP_5 for variable: %s with size %d\n*/", name, f->size);
-			}
-			break;
-		case CB_USAGE_FLOAT:
-			output ("\tfloat %s;\n", name);
-			break;
-		case CB_USAGE_DOUBLE:
-			output ("\tdouble %s;\n", name);
-			break;
-		case CB_USAGE_DISPLAY:
-			output ("\tchar %s[%d];\n", name, f->size);
-			break;
-		case CB_USAGE_POINTER:
-			output ("\tvoid *%s;\n", name);
-			break;
-		default:
-			output ("/* unsupported type %s */", f->pic->orig);
+			cobc_free (name);
 		}
-		cobc_free (name);
 	}
-	output ("};\n");
+	output_indent_level -= indent_adjust_level;
 	name = make_name_C_compatible(record->name);
-	output ("POLYGLOT_DECLARE_STRUCT(%s_%s)\n", current_prog->program_id, name);
+	if (recursion_level == 0) {		
+		output_line ("};");
+		output_line ("POLYGLOT_DECLARE_STRUCT(%s_%s)", current_prog->program_id, name);
+	} else {
+		output_line ("} %s;", name);
+	}
 	cobc_free (name);
 	output_newline();
+}
+
+static void
+generate_struct(struct cb_field *record) {
+	generate_struct_rec (record, 0);
 }
 
 static void
