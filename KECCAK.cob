@@ -60,38 +60,51 @@
 
  DATA DIVISION.
  WORKING-STORAGE SECTION.
- 01 WS-KECCAK-DELIMITED-SUFFIX-BINARY-CHAR BINARY-CHAR UNSIGNED.
- 01 WS-KECCAK-DELIMITED-SUFFIX        PIC X.
- 01 WS-KECCAK-DELIMITED-SUFFIX-CHAR   USAGE BINARY-CHAR UNSIGNED.
+
+ 01 WS-KECCAK-RATE                    BINARY-LONG UNSIGNED.
+ 01 WS-KECCAK-CAPACITY                BINARY-LONG UNSIGNED.
+ 01 WS-KECCAK-DELIMITED-SUFFIX        BINARY-CHAR UNSIGNED.
  01 WS-KECCAK-OUTPUT-BYTE-LEN         BINARY-DOUBLE UNSIGNED.
  
  LINKAGE SECTION.
- 01 LNK-KECCAK-RATE                             BINARY-LONG UNSIGNED.
- 01 LNK-KECCAK-CAPACITY                         BINARY-LONG UNSIGNED.
+ 01 LNK-KECCAK-RATE-POLYGLOT                    POINTER.
+ 01 LNK-KECCAK-CAPACITY-POLYGLOT                POINTER.
  01 LNK-KECCAK-INPUT                            PIC X.
  01 LNK-KECCAK-INPUT-BYTE-LEN                   BINARY-DOUBLE UNSIGNED.
- 01 LNK-KECCAK-DELIMITED-SUFFIX                 BINARY-CHAR UNSIGNED.
+ 01 LNK-KECCAK-DELIMITED-SUFFIX-POLYGLOT        POINTER.
  01 LNK-KECCAK-OUTPUT                           PIC X.
  01 LNK-KECCAK-OUTPUT-BYTE-LEN-POLYGLOT         POINTER.
  
- PROCEDURE DIVISION USING BY VALUE LNK-KECCAK-RATE            
-                          BY VALUE LNK-KECCAK-CAPACITY        
-                          BY REFERENCE LNK-KECCAK-INPUT           
-                          BY REFERENCE LNK-KECCAK-INPUT-BYTE-LEN 
-                          BY VALUE LNK-KECCAK-DELIMITED-SUFFIX
-                          BY REFERENCE LNK-KECCAK-OUTPUT    
-                          BY REFERENCE LNK-KECCAK-OUTPUT-BYTE-LEN-POLYGLOT. 
+ PROCEDURE DIVISION USING  LNK-KECCAK-RATE-POLYGLOT            
+                           LNK-KECCAK-CAPACITY-POLYGLOT        
+                           LNK-KECCAK-INPUT           
+                           LNK-KECCAK-INPUT-BYTE-LEN 
+                           LNK-KECCAK-DELIMITED-SUFFIX-POLYGLOT
+                           LNK-KECCAK-OUTPUT    
+                           LNK-KECCAK-OUTPUT-BYTE-LEN-POLYGLOT. 
  
+     CALL "polyglot_as_i32" USING by reference LNK-KECCAK-RATE-POLYGLOT
+                   returning WS-KECCAK-RATE
+     END-CALL
+     
+     CALL "polyglot_as_i32" USING by reference LNK-KECCAK-CAPACITY-POLYGLOT
+                   returning WS-KECCAK-CAPACITY
+     END-CALL
+
+     CALL "polyglot_as_i8" USING by reference LNK-KECCAK-DELIMITED-SUFFIX-POLYGLOT
+                   returning WS-KECCAK-DELIMITED-SUFFIX
+     END-CALL
+
      CALL "polyglot_as_i64" USING by reference LNK-KECCAK-OUTPUT-BYTE-LEN-POLYGLOT
                    returning WS-KECCAK-OUTPUT-BYTE-LEN
      END-CALL
 
      CALL "KECCAK" USING
-                  LNK-KECCAK-RATE
-                  LNK-KECCAK-CAPACITY
+                  WS-KECCAK-RATE
+                  WS-KECCAK-CAPACITY
                   LNK-KECCAK-INPUT
                   LNK-KECCAK-INPUT-BYTE-LEN
-                  LNK-KECCAK-DELIMITED-SUFFIX
+                  WS-KECCAK-DELIMITED-SUFFIX
                   LNK-KECCAK-OUTPUT
                   WS-KECCAK-OUTPUT-BYTE-LEN
      END-CALL
