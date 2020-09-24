@@ -592,7 +592,7 @@ cob_exit_common_modules (void)
 		if (mod && mod->module_cancel.funcint) {
 			mod->module_active = 0;
 			cancel_func = mod->module_cancel.funcint;
-			(void)cancel_func (-20);	/* Clear just decimals */
+			//(void)cancel_func (-20);	/* Clear just decimals */
 		}
 		cob_free (ptr);
 	}
