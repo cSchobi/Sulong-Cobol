@@ -1,44 +1,3 @@
-*>******************************************************************************
-*>  This file is part of cobsha3.
-*>
-*>  TESTSHA3-256.cob is free software: you can redistribute it and/or 
-*>  modify it under the terms of the GNU Lesser General Public License as 
-*>  published by the Free Software Foundation, either version 3 of the License,
-*>  or (at your option) any later version.
-*>
-*>  TESTSHA3-256.cob is distributed in the hope that it will be useful, 
-*>  but WITHOUT ANY WARRANTY; without even the implied warranty of 
-*>  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-*>  See the GNU Lesser General Public License for more details.
-*>
-*>  You should have received a copy of the GNU Lesser General Public License 
-*>  along with TESTSHA3-256.cob.
-*>  If not, see <http://www.gnu.org/licenses/>.
-*>******************************************************************************
-
-*>******************************************************************************
-*> Program:      TESTSHA3-256.cob
-*>
-*> Purpose:      Test program for the SHA3 modules 
-*>
-*> Author:       Laszlo Erdos - https://www.facebook.com/wortfee
-*>
-*> Date-Written: 2016.05.17
-*>
-*> Tectonics:    cobc -x -W -free TESTSHA3-256.cob
-*>
-*> Usage:        ./TESTSHA3-256.exe
-*>
-*>******************************************************************************
-*> Date       Name / Change description 
-*> ========== ==================================================================
-*> 2016.05.17 Laszlo Erdos: 
-*>            - First version created.
-*>------------------------------------------------------------------------------
-*> yyyy.mm.dd
-*>
-*>******************************************************************************
-
  IDENTIFICATION DIVISION.
  PROGRAM-ID. TESTSHA3-256.
 
@@ -76,6 +35,7 @@
     MOVE Z'js' TO WS-JS.
     MOVE Z'SHA3-256.js' TO WS-SHA3-256-JS-FILENAME.
 
+    *> get javascript function
     CALL STATIC "polyglot_eval_file" using
               by reference WS-JS
               by reference WS-SHA3-256-JS-FILENAME
@@ -87,16 +47,16 @@
     PERFORM TEST-SHA3-256-1
     
 *>  Test case 2 
-*>    PERFORM TEST-SHA3-256-2
-
+    PERFORM TEST-SHA3-256-2
+ 
 *>  Test case 3 
-*>   PERFORM TEST-SHA3-256-3
+    PERFORM TEST-SHA3-256-3
 
 *>  Test case 4 
-*>    PERFORM TEST-SHA3-256-4
+    PERFORM TEST-SHA3-256-4
     
 *>  Test case 5 
-*>    PERFORM TEST-SHA3-256-5
+    PERFORM TEST-SHA3-256-5
    
     STOP RUN
     
