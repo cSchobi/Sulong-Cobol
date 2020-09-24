@@ -53,7 +53,52 @@
 *> yyyy.mm.dd
 *>
 *>******************************************************************************
+ IDENTIFICATION DIVISION.
+ PROGRAM-ID. KECCAK-Wrapper.
 
+ ENVIRONMENT DIVISION.
+
+ DATA DIVISION.
+ WORKING-STORAGE SECTION.
+ 01 WS-KECCAK-DELIMITED-SUFFIX-BINARY-CHAR BINARY-CHAR UNSIGNED.
+ 01 WS-KECCAK-DELIMITED-SUFFIX        PIC X.
+ 01 WS-KECCAK-DELIMITED-SUFFIX-CHAR   USAGE BINARY-CHAR UNSIGNED.
+ 01 WS-KECCAK-OUTPUT-BYTE-LEN         BINARY-DOUBLE UNSIGNED.
+ 
+ LINKAGE SECTION.
+ 01 LNK-KECCAK-RATE                             BINARY-LONG UNSIGNED.
+ 01 LNK-KECCAK-CAPACITY                         BINARY-LONG UNSIGNED.
+ 01 LNK-KECCAK-INPUT                            PIC X.
+ 01 LNK-KECCAK-INPUT-BYTE-LEN                   BINARY-DOUBLE UNSIGNED.
+ 01 LNK-KECCAK-DELIMITED-SUFFIX                 BINARY-CHAR UNSIGNED.
+ 01 LNK-KECCAK-OUTPUT                           PIC X.
+ 01 LNK-KECCAK-OUTPUT-BYTE-LEN-POLYGLOT         POINTER.
+ 
+ PROCEDURE DIVISION USING BY VALUE LNK-KECCAK-RATE            
+                          BY VALUE LNK-KECCAK-CAPACITY        
+                          BY REFERENCE LNK-KECCAK-INPUT           
+                          BY REFERENCE LNK-KECCAK-INPUT-BYTE-LEN 
+                          BY VALUE LNK-KECCAK-DELIMITED-SUFFIX
+                          BY REFERENCE LNK-KECCAK-OUTPUT    
+                          BY REFERENCE LNK-KECCAK-OUTPUT-BYTE-LEN-POLYGLOT. 
+ 
+     CALL "polyglot_as_i64" USING by reference LNK-KECCAK-OUTPUT-BYTE-LEN-POLYGLOT
+                   returning WS-KECCAK-OUTPUT-BYTE-LEN
+     END-CALL
+
+     CALL "KECCAK" USING
+                  LNK-KECCAK-RATE
+                  LNK-KECCAK-CAPACITY
+                  LNK-KECCAK-INPUT
+                  LNK-KECCAK-INPUT-BYTE-LEN
+                  LNK-KECCAK-DELIMITED-SUFFIX
+                  LNK-KECCAK-OUTPUT
+                  WS-KECCAK-OUTPUT-BYTE-LEN
+     END-CALL
+
+     EXIT.
+
+ END PROGRAM KECCAK-Wrapper.
 
 *>******************************************************************************
 *> The KECCAK module, that uses the Keccak-f[1600] permutation.
