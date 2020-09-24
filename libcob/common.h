@@ -1610,6 +1610,7 @@ COB_EXPIMP void		cob_runtime_warning	(const char *, ...) COB_A_FORMAT12;
 
 COB_EXPIMP int		cob_is_initialized	(void);
 COB_EXPIMP cob_global		*cob_get_global_ptr	(void);
+COB_EXPIMP void     set_cob_call_parameters (int);
 
 COB_EXPIMP void	cob_init			(const int, char **);
 COB_EXPIMP void	cob_init_nomain		(const int, char **);

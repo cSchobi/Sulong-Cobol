@@ -2207,6 +2207,16 @@ cob_get_global_ptr (void)
 	return cobglobptr;
 }
 
+void
+set_cob_call_parameters (int n_parameters) {
+	/* LCOV_EXCL_START */
+	if (unlikely (!cob_initialized)) {
+		cob_fatal_error (COB_FERROR_INITIALIZED);
+	}
+	/* LCOV_EXCL_STOP */
+	cobglobptr->cob_call_params = n_parameters;
+}
+
 int
 cob_module_global_enter (cob_module **module, cob_global **mglobal,
 		  const int auto_init, const int entry, const unsigned int *name_hash)
