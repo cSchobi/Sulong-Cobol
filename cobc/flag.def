@@ -210,3 +210,6 @@ CB_FLAG_ON (cb_listing_with_messages, 1, "tmessages",
 
 CB_FLAG (cb_listing_symbols, 1, "tsymbols",
 	_("  -ftsymbols            specify symbols in listing"))
+
+CB_FLAG (cb_include_polygot, 1, "include-polyglot",
+	_("  -finclude-polyglot    include Sulong polyglot header file"))

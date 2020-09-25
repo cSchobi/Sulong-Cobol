@@ -10516,12 +10516,12 @@ output_internal_function (struct cb_program *prog, cb_tree parameter_list)
 	
 	savetarget = output_target;
 	output_target = cb_interface_file;
-	if (is_struct_needed(prog)) {
-		if (!is_polyglot_header_output) {
+	if (!is_polyglot_header_output && (cb_include_polygot || is_struct_needed(prog))) {
+			output_line ("#include <polyglot.h>");	
 			is_polyglot_header_output = 1;
-			output ("#include <polyglot.h>\n");
-		}
-		output("/* Generated structs for %s*/\n", prog->program_name);
+	}
+	if (is_struct_needed(prog)) {
+		output_line ("/* Generated structs for %s*/", prog->program_name);
 		for (f = prog->linkage_storage; f; f = f->sister){
 			if (f->children != NULL){
 				generate_struct(f);
