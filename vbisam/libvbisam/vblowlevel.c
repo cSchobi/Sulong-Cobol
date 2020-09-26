@@ -431,10 +431,14 @@ ivblock (const int ihandle, off_t toffset, off_t tlength, const int imode)
         iresult = fcntl (vb_rtd->svbfile[ihandle].ihandle, icommand, &sflock);
     }
 */
+/*
+ *  The fcntl sys call is currently not fully implemented in Sulong (Graalvm Version 20.2)
     do {
         iresult = fcntl (vb_rtd->svbfile[ihandle].ihandle, icommand, &sflock);
     } while ( iresult && errno == EINTR );
 
     return iresult;
+*/
+	return 0;
 #endif
 }
