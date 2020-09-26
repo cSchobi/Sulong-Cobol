@@ -1,4 +1,4 @@
-COBCOPTS = -g -lpolyglot-mock -Q "-Wl,-rpath -Wl,/usr/local/lib" -free
+COBCOPTS = -free -Q "-Wl,-rpath -Wl,$(MANAGED_LIBRARIES_PATH)/lib"
 
 all:	SHAKE128.so SHAKE256.so SHA3-224.so \
         SHA3-256.so SHA3-384.so SHA3-512.so KECCAK.o \
@@ -32,12 +32,20 @@ SHA3-256.o:	SHA3-256.cob
 	cobc $(COBCOPTS) -c  SHA3-256.cob
     
 # SHA3    
-TESTSHA3_STATIC: TESTSHA3.cob KECCAK.cob SHA3-224.cob SHA3-256.cob SHA3-384.cob SHA3-512.cob SHAKE128.cob SHAKE256.cob
-	cobc $(COBCOPTS) -x -fstatic-call TESTSHA3.cob KECCAK.cob SHA3-224.cob SHA3-256.cob SHA3-384.cob SHA3-512.cob SHAKE128.cob SHAKE256.cob -o $@
+
+# create dynamic library that can by loaded by Sulong
+KECCAK.so: KECCAK.cob
+	cobc $(COBCOPTS) -m -fstatic-call -fno-gen-c-decl-static-call -finclude-polyglot KECCAK.cob
+
+TESTSHA3-256: TESTSHA3-256.cob SHA3-256.js KECCAK.so
+	cobc $(COBCOPTS) -x TESTSHA3-256.cob -lpolyglot-mock
 
 # do not generate C declaration of functions because of error (redeclaration) with polyglot library
 SHA3-256_STATIC.so:  SHA3-Wrapper.cob SHA3-256.so KECCAK.o
-	cobc $(COBCOPTS) -b -fstatic-call -fno-gen-c-decl-static-call SHA3-Wrapper.cob SHA3-256.so KECCAK.o -lpolyglot-mock -o $@
+	cobc $(COBCOPTS) -b -fstatic-call -fno-gen-c-decl-static-call -G SHA3-256-Wrapper-js-object -lpolyglot-mock SHA3-Wrapper.cob SHA3-256.so KECCAK.o -o $@
+
+TESTSHA3_STATIC: TESTSHA3.cob KECCAK.cob SHA3-224.cob SHA3-256.cob SHA3-384.cob SHA3-512.cob SHAKE128.cob SHAKE256.cob
+	cobc $(COBCOPTS) -x -fstatic-call -lpolyglot-mock TESTSHA3.cob KECCAK.cob SHA3-224.cob SHA3-256.cob SHA3-384.cob SHA3-512.cob SHAKE128.cob SHAKE256.cob -o $@
 
 TESTSHA3:	TESTSHA3.cob
 	cobc $(COBCOPTS) -x  TESTSHA3.cob
@@ -61,24 +69,24 @@ SHA3-512.so:	SHA3-512.cob KECCAK.o
 	cobc $(COBCOPTS) -m  SHA3-512.cob KECCAK.o
     
 KECCAK.o:	KECCAK.cob
-	cobc $(COBCOPTS) -c -fstatic-call KECCAK.cob
+	cobc $(COBCOPTS) -c -fstatic-call -fno-gen-c-decl-static-call -finclude-polyglot -lpolyglot-mock KECCAK.cob
     
 clean: clean_intermediates
-	rm KECCAK.o
-	rm KECCAK.so
-	rm SHAKE128.so
-	rm SHAKE256.so
-	rm SHA3-224.so
-	rm SHA3-256.so
-	rm SHA3-384.so
-	rm SHA3-512.so
-	rm TESTSHA3
-	rm SHA3-256.o
-	rm SESSION-ID-256.so
-	rm TEST-SESSION-ID-256
-	rm SHA3-512.o
-	rm SESSION-ID.so
-	rm TEST-SESSION-ID
+	-rm KECCAK.o
+	-rm KECCAK.so
+	-rm SHAKE128.so
+	-rm SHAKE256.so
+	-rm SHA3-224.so
+	-rm SHA3-256.so
+	-rm SHA3-384.so
+	-rm SHA3-512.so
+	-rm TESTSHA3
+	-rm SHA3-256.o
+	-rm SESSION-ID-256.so
+	-rm TEST-SESSION-ID-256
+	-rm SHA3-512.o
+	-rm SESSION-ID.so
+	-rm TEST-SESSION-ID
 
 clean_intermediates:
-	rm *.i *.h 
+	-rm *.i *.h 
