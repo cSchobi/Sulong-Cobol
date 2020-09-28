@@ -37,9 +37,10 @@
 
     *> get javascript function
     CALL STATIC "polyglot_eval_file" using
-              by reference WS-JS
-              by reference WS-SHA3-256-JS-FILENAME
-              returning WS-SHA3-256-JS-POINTER.
+              WS-JS
+              WS-SHA3-256-JS-FILENAME
+              returning WS-SHA3-256-JS-POINTER
+    END-CALL
 
 *>  SHA3-256 module test
 *>  ====================    
@@ -122,8 +123,8 @@
     MOVE 0   TO WS-INPUT-BYTE-LEN  
     
     CALL WS-SHA3-256-JS-POINTER USING WS-INPUT
-                          WS-INPUT-BYTE-LEN
-                          WS-SHA3-256-OUTPUT
+                                      WS-INPUT-BYTE-LEN
+                                      WS-SHA3-256-OUTPUT
     END-CALL
 
     IF WS-SHA3-256-OUTPUT =
