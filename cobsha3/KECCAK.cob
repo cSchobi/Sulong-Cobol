@@ -83,19 +83,23 @@
                            LNK-KECCAK-OUTPUT    
                            LNK-KECCAK-OUTPUT-BYTE-LEN-POLYGLOT. 
  
-     CALL "polyglot_as_i32" USING by reference LNK-KECCAK-RATE-POLYGLOT
+     CALL "polyglot_as_i32" USING 
+                   LNK-KECCAK-RATE-POLYGLOT
                    returning WS-KECCAK-RATE
      END-CALL
      
-     CALL "polyglot_as_i32" USING by reference LNK-KECCAK-CAPACITY-POLYGLOT
+     CALL "polyglot_as_i32" USING 
+                   LNK-KECCAK-CAPACITY-POLYGLOT
                    returning WS-KECCAK-CAPACITY
      END-CALL
 
-     CALL "polyglot_as_i8" USING by reference LNK-KECCAK-DELIMITED-SUFFIX-POLYGLOT
+     CALL "polyglot_as_i8" USING 
+                   LNK-KECCAK-DELIMITED-SUFFIX-POLYGLOT
                    returning WS-KECCAK-DELIMITED-SUFFIX
      END-CALL
 
-     CALL "polyglot_as_i64" USING by reference LNK-KECCAK-OUTPUT-BYTE-LEN-POLYGLOT
+     CALL "polyglot_as_i64" USING 
+                   LNK-KECCAK-OUTPUT-BYTE-LEN-POLYGLOT
                    returning WS-KECCAK-OUTPUT-BYTE-LEN
      END-CALL
 
@@ -113,6 +117,40 @@
 
  END PROGRAM KECCAK-Wrapper.
 
+ IDENTIFICATION DIVISION.
+ PROGRAM-ID. KECCAK-Wrapper-struct.
+
+ ENVIRONMENT DIVISION.
+
+ DATA DIVISION.
+ WORKING-STORAGE SECTION.
+
+ LINKAGE SECTION.
+ 01 LNK-KECCAK.
+        02 LNK-KECCAK-RATE                    BINARY-LONG UNSIGNED.
+        02 LNK-KECCAK-CAPACITY                BINARY-LONG UNSIGNED.
+        02 LNK-KECCAK-INPUT                   POINTER.
+        02 LNK-KECCAK-INPUT-BYTE-LEN          BINARY-DOUBLE UNSIGNED.
+        02 LNK-KECCAK-DELIMITED-SUFFIX        POINTER.
+        02 LNK-KECCAK-OUTPUT                  POINTER.
+        02 LNK-KECCAK-OUTPUT-BYTE-LEN         BINARY-DOUBLE UNSIGNED.
+ 
+ PROCEDURE DIVISION USING  LNK-KECCAK. 
+ 
+
+     CALL "KECCAK" USING
+                  LNK-KECCAK-RATE
+                  LNK-KECCAK-CAPACITY
+                  LNK-KECCAK-INPUT
+                  LNK-KECCAK-INPUT-BYTE-LEN
+                  LNK-KECCAK-DELIMITED-SUFFIX
+                  LNK-KECCAK-OUTPUT
+                  LNK-KECCAK-OUTPUT-BYTE-LEN
+     END-CALL
+
+     EXIT.
+
+ END PROGRAM KECCAK-Wrapper-struct.
 *>******************************************************************************
 *> The KECCAK module, that uses the Keccak-f[1600] permutation.
 *>******************************************************************************
