@@ -130,8 +130,8 @@
         02 LNK-KECCAK-RATE                    BINARY-LONG UNSIGNED.
         02 LNK-KECCAK-CAPACITY                BINARY-LONG UNSIGNED.
         02 LNK-KECCAK-INPUT                   POINTER.
-        02 LNK-KECCAK-INPUT-BYTE-LEN          BINARY-DOUBLE UNSIGNED.
-        02 LNK-KECCAK-DELIMITED-SUFFIX        POINTER.
+        02 LNK-KECCAK-INPUT-BYTE-LEN          POINTER.
+        02 LNK-KECCAK-DELIMITED-SUFFIX        BINARY-CHAR UNSIGNED.
         02 LNK-KECCAK-OUTPUT                  POINTER.
         02 LNK-KECCAK-OUTPUT-BYTE-LEN         BINARY-DOUBLE UNSIGNED.
  
@@ -141,11 +141,11 @@
      CALL "KECCAK" USING
                   LNK-KECCAK-RATE
                   LNK-KECCAK-CAPACITY
-                  LNK-KECCAK-INPUT
-                  LNK-KECCAK-INPUT-BYTE-LEN
-                  LNK-KECCAK-DELIMITED-SUFFIX
-                  LNK-KECCAK-OUTPUT
-                  LNK-KECCAK-OUTPUT-BYTE-LEN
+                  BY VALUE LNK-KECCAK-INPUT
+                  BY VALUE LNK-KECCAK-INPUT-BYTE-LEN
+                  BY REFERENCE LNK-KECCAK-DELIMITED-SUFFIX
+                  BY VALUE LNK-KECCAK-OUTPUT
+                  BY REFERENCE LNK-KECCAK-OUTPUT-BYTE-LEN
      END-CALL
 
      EXIT.
@@ -195,6 +195,7 @@
 *>------------------------------------------------------------------------------
  MAIN-KECCAK SECTION.
 *>------------------------------------------------------------------------------
+
 
 *>  Check rate and capacity, they must have r+c=1600
     IF (LNK-KECCAK-RATE + LNK-KECCAK-CAPACITY) NOT = 1600
