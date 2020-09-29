@@ -1,4 +1,4 @@
-COBCOPTS = -free -Q "-Wl,-rpath -Wl,$(MANAGED_LIBRARIES_PATH)/lib"
+COBCOPTS = -free -Q "-Wl,-rpath -Wl,$(MANAGED_LIBRARIES_PATH)/lib -Wl,-rpath -Wl,$(GRAALVM_LIBRARIES_PATH)"
 
 all:	SHAKE128.so SHAKE256.so SHA3-224.so \
         SHA3-256.so SHA3-384.so SHA3-512.so KECCAK.o \
@@ -35,10 +35,10 @@ SHA3-256.o:	SHA3-256.cob
 
 # create dynamic library that can by loaded by Sulong
 KECCAK.so: KECCAK.cob
-	cobc $(COBCOPTS) -m -fstatic-call -fno-gen-c-decl-static-call -finclude-polyglot KECCAK.cob
+	cobc $(COBCOPTS) -m -fstatic-call -fno-gen-c-decl-static-call -G KECCAK-Wrapper-struct -lpolyglot-mock KECCAK.cob
 
-TESTSHA3-256: TESTSHA3-256.cob SHA3-256.js KECCAK.so
-	cobc $(COBCOPTS) -x TESTSHA3-256.cob -lpolyglot-mock
+TESTSHA3-256: TESTSHA3-256.cob KECCAK.so
+	cobc $(COBCOPTS) -x -lpolyglot-mock TESTSHA3-256.cob 
 
 # do not generate C declaration of functions because of error (redeclaration) with polyglot library
 SHA3-256_STATIC.so:  SHA3-Wrapper.cob SHA3-256.so KECCAK.o
@@ -81,6 +81,7 @@ clean: clean_intermediates
 	-rm SHA3-384.so
 	-rm SHA3-512.so
 	-rm TESTSHA3
+	-rm TESTSHA3-256
 	-rm SHA3-256.o
 	-rm SESSION-ID-256.so
 	-rm TEST-SESSION-ID-256
