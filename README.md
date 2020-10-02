@@ -13,7 +13,7 @@ This chapter gives more details about the modifications that were made.
 * In *configure.ac* the checks for the header *signal.h* and the syscalls *fcntl*, *readlink* and *realpath* were removed.
 * For generating type information for COBOL records a function *generate_struct* was added in *cobc/codegen.c*. A command line argument *-G entry* was added in *cobc/cobc.c* to activate this functionality for the function *entry*. 
 * In *cobc/flag.def* the flag '-finclude-polyglot' was added to give the option to include the header <polyglot.h>.
-* The custom *memcpy* in the function *num_byte_memcpy* in *libcob/numeric.c* was replaced with a call to *memcpy*.
+* The custom memcpy in the function *num_byte_memcpy* in *libcob/numeric.c* was replaced with a call to *memcpy*.
 
 ### vbisam
 * The call to *fcntl* in *libvbisam/vblowlevel.c* was commented out.
