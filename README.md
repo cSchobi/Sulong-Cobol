@@ -3,10 +3,10 @@ This repo contains the source code of GnuCOBOL, gmp, VBISAM and the cobsha3 exam
 
 The sources for the source codes are:
 
-The directory *gnucobol* contains the source that was downloaded from https://gnucobol.sourceforge.io/faq/index.html#how-do-i-install-gnucobol (In detail, the scripts provided at https://www.arnoldtrembley.com/GnuCOBOL.htm where used to download GnuCOBOL version 3.1-rc1.0), with some modifications to introduce type information and to make GnuCOBOL compatible with Sulong _managed mode_.  
-*gmp* contains the source that was downloaded from https://gmplib.org/ (version 6.2.0).
-*vbisam* contains the source for version 2.1.1 that was downloaded from a discussion at https://sourceforge.net/p/gnucobol/discussion/help/thread/8910169768/?limit=25#423a (See https://sourceforge.net/p/vbisam/discussion/330149/thread/44f462b31d/ for a discussion why this version was used), with one modification to make it compatible with Sulong _managed mode_.
-*cobsha3* contains the code from https://sourceforge.net/p/gnucobol/contrib/HEAD/tree/trunk/samples/cobsha3/, with one part of it rewritten in JavaScript and some modifications to call the JavaScript function.
+* The directory *gnucobol* contains the source that was downloaded from https://gnucobol.sourceforge.io/faq/index.html#how-do-i-install-gnucobol (In detail, the scripts provided at https://www.arnoldtrembley.com/GnuCOBOL.htm where used to download version 3.1-rc1.0), with some modifications to introduce type information and to make GnuCOBOL compatible with Sulong _managed mode_.  
+* *gmp* contains the source that was downloaded from https://gmplib.org/ (version 6.2.0).
+* *vbisam* contains the source for version 2.1.1 that was downloaded from a discussion at https://sourceforge.net/p/gnucobol/discussion/help/thread/8910169768/?limit=25#423a (See https://sourceforge.net/p/vbisam/discussion/330149/thread/44f462b31d/ for a discussion why this version was used), with one modification to make it compatible with Sulong _managed mode_.
+* *cobsha3* contains the code from https://sourceforge.net/p/gnucobol/contrib/HEAD/tree/trunk/samples/cobsha3/, with one part of it rewritten in JavaScript and some modifications to call the JavaScript function.
 
 ## Modifications
 This chapter gives more details about the modifications that were made.
