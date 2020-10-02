@@ -23,4 +23,3 @@ This chapter gives more details about the modifications that were made.
 * The Javascript file *SHA3-256.js* that replaces the corresponding COBOL module was added.
 * The file *TESTSHA3-256.cob* was added.
 * Wrapper functions were added in *KECCAK.cob*.
-* The files *init.c*, *interface.c* and *TESTSHA3.js* were added.
