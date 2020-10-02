@@ -2,10 +2,10 @@
 This repo contains the source code of GnuCOBOL, gmp, VBISAM and the cobsha3 example to the corresponding blog post for integrating COBOL with JavaScript at [TODO INSERT MEDIUM URL]. You can learn about the technial details and how to build this example there. 
 
 ## Sources of the source codes
-* The directory *gnucobol* contains the source that was downloaded from https://gnucobol.sourceforge.io/faq/index.html#how-do-i-install-gnucobol (In detail, the scripts provided at https://www.arnoldtrembley.com/GnuCOBOL.htm where used to download version 3.1-rc1.0), with some modifications to introduce type information and to make GnuCOBOL compatible with Sulong _managed mode_.  
+* The directory *gnucobol* contains the source that was downloaded from [How do I install GnuCOBOL](https://gnucobol.sourceforge.io/faq/index.html#how-do-i-install-gnucobol) (In detail, the scripts provided at https://www.arnoldtrembley.com/GnuCOBOL.htm were used to download version 3.1-rc1.0), with some modifications to introduce type information and to make GnuCOBOL compatible with Sulong _managed mode_.  
 * *gmp* contains the source that was downloaded from https://gmplib.org/ (version 6.2.0).
-* *vbisam* contains the source of version 2.1.1 that was downloaded from a discussion at https://sourceforge.net/p/gnucobol/discussion/help/thread/8910169768/?limit=25#423a (See https://sourceforge.net/p/vbisam/discussion/330149/thread/44f462b31d/ for a discussion why this version was used), with one modification to make it compatible with Sulong _managed mode_.
-* *cobsha3* contains the code from https://sourceforge.net/p/gnucobol/contrib/HEAD/tree/trunk/samples/cobsha3/, with one part of it rewritten in JavaScript and some modifications to call the JavaScript function.
+* *vbisam* contains the source of version 2.1.1 that was downloaded from a discussion at [Download VBISAM](https://sourceforge.net/p/gnucobol/discussion/help/thread/8910169768/?limit=25#423a) (For the reason why this version was used, look at this [Discussion](https://sourceforge.net/p/vbisam/discussion/330149/thread/44f462b31d/), with one modification to make it compatible with Sulong _managed mode_.
+* *cobsha3* contains the code from [cobhsa3 Sample](https://sourceforge.net/p/gnucobol/contrib/HEAD/tree/trunk/samples/cobsha3/), with one part of it rewritten in JavaScript and some modifications to call the JavaScript function.
 
 ## Modifications
 This chapter gives more details about the modifications that were made.
