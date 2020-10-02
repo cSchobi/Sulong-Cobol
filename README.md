@@ -11,7 +11,7 @@ This repo contains the source code of GnuCOBOL, gmp, VBISAM and the cobsha3 exam
 This chapter gives more details about the modifications that were made.
 ### gnucobol
 * In *configure.ac* the checks for the header *signal.h* and the syscalls *fcntl*, *readlink* and *realpath* were removed.
-* For generating type information for COBOL records a function *generate_struct* was added in *cobc/codegen.c*. A command line argument '-G <entry>' was added in *cobc/cobc.c* to activate this functionality for the function *entry*. 
+* For generating type information for COBOL records a function *generate_struct* was added in *cobc/codegen.c*. A command line argument *-G entry* was added in *cobc/cobc.c* to activate this functionality for the function *entry*. 
 * In *cobc/flag.def* the flag '-finclude-polyglot' was added to give the option to include the header <polyglot.h>.
 * The custom *memcpy* in the function *num_byte_memcpy* in *libcob/numeric.c* was replaced with a call to *memcpy*.
 
