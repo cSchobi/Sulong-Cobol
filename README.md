@@ -1,5 +1,5 @@
 # Sulong-Cobol
-This repo contains the source code of GnuCOBOL, gmp, VBISAM and the cobsha3 example to the corresponding blog post for integrating COBOL with JavaScript at [TODO INSERT MEDIUM URL]. You can learn about the technial details and how to build this example there. 
+This repo contains the source code of GnuCOBOL, gmp, VBISAM and the cobsha3 example to the corresponding blog post for integrating COBOL with JavaScript at [Medium](https://medium.com/@c.schobesberger_75570/c2d1ffe00678). You can learn about the technial details and how to build this example there. 
 
 ## Sources of the source codes
 * The directory *gnucobol* contains the source that was downloaded from [How do I install GnuCOBOL](https://gnucobol.sourceforge.io/faq/index.html#how-do-i-install-gnucobol) (In detail, the scripts provided at https://www.arnoldtrembley.com/GnuCOBOL.htm were used to download version 3.1-rc1.0), with some modifications to introduce type information and to make GnuCOBOL compatible with Sulong _managed mode_.  
